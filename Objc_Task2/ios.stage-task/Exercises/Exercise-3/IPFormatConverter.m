@@ -29,12 +29,15 @@
             }
             if (numbersArray.count == 2) {
                 [string appendFormat:@"%@", numbersArray[0]];
+                [string appendString:@"."];
                 [string appendFormat:@"%@", numbersArray[1]];
                 [string appendString:@".0.0"];
             }
             if (numbersArray.count == 3) {
                 [string appendFormat:@"%@", numbersArray[0]];
+                [string appendString:@"."];
                 [string appendFormat:@"%@", numbersArray[1]];
+                [string appendString:@"."];
                 [string appendFormat:@"%@", numbersArray[2]];
                 [string appendString:@".0"];
             }
