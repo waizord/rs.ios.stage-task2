@@ -3,11 +3,12 @@
 @implementation TwoDimensionalArraySorter
 
 - (NSArray *)twoDimensionalSort:(NSArray<NSArray *> *)array {
-    NSArray * result = [NSArray new];
+    NSMutableArray * result = [NSMutableArray new];
     NSMutableArray * strings = [NSMutableArray new];
     NSMutableArray * numbers = [NSMutableArray new];
-    NSMutableArray * check = [NSMutableArray new];
-    NSArray * sort = [NSArray new];
+    NSArray * sortStrings = [NSArray new];
+    NSArray * sortNumbers = [NSArray new];
+    
     
     NSLog(@"%@", array.class);
     
@@ -18,7 +19,7 @@
         for (id valueArray in array) {
             NSLog(@"is Equal class the first obj and each next? -> %d", [[valueArray class] isEqual:array[0].class]);
             
-            if ([array[0].class isEqual:array[1].class]) {
+            if ([[valueArray class] isEqual:array[0].class] && [array[0] isKindOfClass:NSArray.class]) {
                 for (id value in valueArray) {
                     NSLog(@"value %@", value);
                     
@@ -26,34 +27,44 @@
                     NSLog(@"is Number? -> %d", [value isKindOfClass:NSNumber.class]);
                     
                     if ([value isKindOfClass:NSString.class]) {
-                        [check addObject:value];
+                        [strings addObject:value];
                     } else {
                         if ([value isKindOfClass:NSNumber.class]) {
-                            [check addObject:value];
+                            [numbers addObject:value];
                         }
                     }
                 }
-                NSLog(@"before to sorted %@", check);
+                NSLog(@"Strings are before to sorted %@", strings);
+                NSLog(@"Numbers are before to sorted %@", numbers);
             } else {
                 NSLog(@"%@This array doesn't have equal objects", array);
                 return @[];
             }
         }
-        
-        for (id item in check) {
-            if ([[item class] isEqual: [check[0] class]]){
-                NSLog(@"The first obj of array is equal each next obj");
-            }else{
-                NSLog(@"The first obj of array isn't equal any obj");
-                return @[];
-            }
-        }
     }
     
-    sort = [check sortedArrayUsingSelector:@selector(compare:)];
-    NSLog(@"sort result is %@", sort);
-    NSLog(@"%@", sort.class);
-    return sort;
+    sortStrings = [strings sortedArrayUsingSelector:@selector(compare:)];
+    sortNumbers = [numbers sortedArrayUsingSelector:@selector(compare:)];
+    NSLog(@"sort strings is %@", sortStrings);
+    NSLog(@"sort numbers is %@", sortNumbers);
+    
+    if ([sortNumbers isEqual:@[]]) {
+        NSLog(@"sort result is %@", sortStrings);
+        return sortStrings;
+    } else {
+        if ([sortStrings isEqual:@[]]) {
+            NSLog(@"sort result is %@", sortNumbers);
+            return sortNumbers;
+        } else {
+            [result addObject:sortNumbers];
+            [result addObject:sortStrings];
+        }
+    }
+
+    NSLog(@"sort result is %@", result);
+    NSLog(@"Class result is %d", [result isKindOfClass:NSArray.class]);
+    NSLog(@"Class copy result is %d", [[result copy] isKindOfClass:NSArray.class]);
+    return [result copy];
 }
 
 @end
