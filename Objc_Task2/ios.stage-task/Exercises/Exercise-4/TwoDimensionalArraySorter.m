@@ -57,7 +57,12 @@
             return sortNumbers;
         } else {
             [result addObject:sortNumbers];
-            [result addObject:sortStrings];
+            sortStrings = [strings sortedArrayUsingSelector:@selector(compare:)];
+            NSMutableArray * revers = [NSMutableArray new];
+            for (id item in [sortStrings reverseObjectEnumerator]) {
+                [revers addObject:item];
+            }
+            [result addObject:revers];
         }
     }
 
